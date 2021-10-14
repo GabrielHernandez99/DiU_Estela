@@ -13,13 +13,13 @@ import java.awt.Graphics;
  * @author gabri
  */
 public class Estela extends javax.swing.JFrame {
-
+    private int delay = 0;
     /**
      * Creates new form Estela
      */
     public Estela() {
         initComponents();
-        lienzo2.setBackground(Color.WHITE);
+        //lienzo2.setBackground(Color.WHITE);
     }
 
     /**
@@ -48,6 +48,9 @@ public class Estela extends javax.swing.JFrame {
 
         lienzo2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lienzo2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                lienzo2MouseDragged(evt);
+            }
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 lienzo2MouseMoved(evt);
             }
@@ -124,30 +127,38 @@ public class Estela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void comboBoxEstelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxEstelaActionPerformed
-        int indice=comboBoxEstela.getSelectedIndex();
-        System.out.println(indice);
+        lienzo2.paintEstela(comboBoxEstela.getSelectedIndex());
+        System.out.println("se cambio estela");
     }//GEN-LAST:event_comboBoxEstelaActionPerformed
 
     private void lienzo2MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lienzo2MouseMoved
 
-        String estelaColor = (String) comboBoxEstela.getSelectedItem();
-        drawPoint(evt.getX(),evt.getY(),(String) comboBoxEstela.getSelectedItem());
-        changeEstela(estelaColor);
+       if(delay < 10){
+            delay++;
+        }else{
+            lienzo2.setCoordinates(evt.getX(), evt.getY());
+            delay = 0;
+        }
     }//GEN-LAST:event_lienzo2MouseMoved
 
     private void lienzo2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lienzo2MouseClicked
-        int x=evt.getX();
-        int y=evt.getY();
-        
-        System.out.println(x +" "+ y);
+      
     }//GEN-LAST:event_lienzo2MouseClicked
 
     private void comboBoxFondoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxFondoActionPerformed
-        String lienzoColor = (String) comboBoxFondo.getSelectedItem();
-        changeLienzo(lienzoColor);
-        System.out.println(lienzoColor);
-        System.out.println("Se ha cambiao algo");
+        lienzo2.paintFondo(comboBoxFondo.getSelectedIndex());
+        System.out.println("Se ha cambiao fondo");
     }//GEN-LAST:event_comboBoxFondoActionPerformed
+
+    private void lienzo2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lienzo2MouseDragged
+        // TODO add your handling code here:
+        if(delay < 10){
+            delay++;
+        }else{
+            lienzo2.setCoordinates(evt.getX(), evt.getY());
+            delay = 0;
+        }
+    }//GEN-LAST:event_lienzo2MouseDragged
 
     /**
      * @param args the command line arguments
@@ -192,36 +203,6 @@ public class Estela extends javax.swing.JFrame {
     private com.mycompany.diu_estela.Lienzo lienzo2;
     // End of variables declaration//GEN-END:variables
 
-    private void changeLienzo(String word) {
-        if(word.equals("Blanco")){
-            lienzo2.setBackground(Color.WHITE);
-        }
-        else if(word.equals("Negro")){
-            lienzo2.setBackground(Color.BLACK);
-        }
-        else if(word.equals("Azul")){
-            lienzo2.setBackground(Color.BLUE);
-        }
-        else if(word.equals("Verde")){
-            lienzo2.setBackground(Color.GREEN);
-        }}
-
-    private void changeEstela(String estelaColor) {
-        if(estelaColor.equals("Negro")){
-            lienzo2.setForeground(Color.BLACK);
-        }
-        else if(estelaColor.equals("Azul")){
-            lienzo2.setForeground(Color.BLUE);
-        }
-        else if(estelaColor.equals("Rojo")){
-            lienzo2.setForeground(Color.RED);
-        }
-        else if(estelaColor.equals("Verde")){
-            lienzo2.setForeground(Color.GREEN);
-        }
-    }
-    private void drawPoint(int x, int y, String ColorEstela) {
-        this.getGraphics().fillOval(x, y, 10, 10);
-    }
+   
     
 }
